@@ -1,42 +1,35 @@
-# .github/workflows/publish.yml
 name: Build & Publish Stencil Button
 
 on:
   push:
     branches:
-      - main        # triggers on pushes to main branch
+      - main
     tags:
-      - 'v*'        # triggers on version tags
+      - 'v*'
 
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout repo
       - uses: actions/checkout@v3
 
-      # 2️⃣ Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org/'
 
-      # 3️⃣ Clean old dependencies (fixes optional Rollup module issue)
       - name: Clean old deps
         run: |
           rm -rf node_modules package-lock.json
 
-      # 4️⃣ Install dependencies
-      - name: Install dependencies
-        run: npm install
+      - name: Install dependencies (force optional deps)
+        run: npm install --force
 
-      # 5️⃣ Build Stencil library
       - name: Build Stencil package
         run: npm run build
 
-      # 6️⃣ Publish to npm
       - name: Publish to npm
         run: npm publish --access public
         env:

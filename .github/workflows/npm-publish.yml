@@ -3,7 +3,7 @@ name: Publish to npm
 on:
   push:
     branches:
-      - main # triggers on pushes to main branch
+      - master # triggers on pushes to main branch
     tags:
       - 'v*' # optional: also trigger on version tags
 
